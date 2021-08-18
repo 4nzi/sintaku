@@ -7,7 +7,7 @@ import {
   EditProfile,
   MyLikeList,
 } from '../templates/index'
-import { Avatar, Spacer, Button } from '../components/index'
+import { AvatarMemo, Spacer, Button } from '../components/index'
 import { useAuthChecker } from '../hooks/useAuthChecker'
 import { useQueryMyProf } from '../hooks/useQueryProf'
 import { useMutateAuth } from '../hooks/useMutateAuth'
@@ -51,7 +51,7 @@ const Myprofile: React.VFC = () => {
         <Hero>
           <Wrapper>
             <Spacer axis="vertical" size={50} />
-            <Avatar img={data?.img} size={120} />
+            <AvatarMemo img={data?.img} size={120} />
             <h1>{data?.nickName}</h1>
             <Button sType="box" onClick={signout}>
               ログアウト

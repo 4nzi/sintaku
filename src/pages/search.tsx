@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Post, Layout } from '../templates/index'
+import { PostMemo, Layout } from '../templates/index'
 import { useQuerySearchPost } from '../hooks/useQuerySearchPost'
 import { Loading, Spacer, NoResults } from '../components/index'
 import { useAuthChecker } from '../hooks/useAuthChecker'
@@ -50,7 +50,7 @@ const Search: React.VFC = () => {
         <Wrapper>
           {data.data.results.map((result) => (
             <li key={result.id}>
-              <Post {...result} />
+              <PostMemo {...result} />
             </li>
           ))}
         </Wrapper>

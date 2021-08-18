@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Avatar, Like } from '../components/index'
+import { AvatarMemo, Like } from '../components/index'
 import { useQueryProfs } from '../hooks/useQueryProf'
 import { POST } from '../types'
 
@@ -38,6 +39,7 @@ const Post: React.VFC<POST> = ({
   const postUser = data?.find((prof) => {
     return prof.userProfile === userPost
   })
+  console.log('post')
 
   return (
     <>
@@ -58,7 +60,7 @@ const Post: React.VFC<POST> = ({
         </a>
       </Link>
       <Footer>
-        <Avatar img={postUser?.img} size={24} />
+        <AvatarMemo img={postUser?.img} size={24} />
         <Link
           href={{
             pathname: 'posts/[id]',
@@ -80,4 +82,4 @@ const Post: React.VFC<POST> = ({
     </>
   )
 }
-export default Post
+export const PostMemo = memo(Post)
