@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { useState } from 'react'
-import { Input, Label, Spacer, Avatar, Button } from '../components/index'
+import { Input, Label, Spacer, AvatarMemo, Button } from '../components/index'
 import { Loading } from '../components/index'
 import { useQueryMyProf } from '../hooks/useQueryProf'
 import { useMutateProf } from '../hooks/useMutateProf'
@@ -73,7 +73,7 @@ const EditProfile: React.VFC = () => {
         <div className="avater">
           <Label>アバター画像</Label>
           <div>
-            <Avatar
+            <AvatarMemo
               size={100}
               img={previewimage ? previewimage : data.img}
             />

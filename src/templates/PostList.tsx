@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Post } from '../templates/index'
+import { PostMemo } from '../templates/index'
 import { Loading, Button, Spacer } from '../components/index'
 import { useQueryPosts } from '../hooks/useQueryPost'
 import { tab } from '../media'
@@ -36,7 +36,7 @@ const PostList: React.VFC = () => {
           <React.Fragment key={i}>
             {page.results.map((result) => (
               <li key={result.id}>
-                <Post {...result} />
+                <PostMemo {...result} />
               </li>
             ))}
           </React.Fragment>

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Button, Spacer, Avatar, SearchInput } from '../components/index'
+import { Button, Spacer, AvatarMemo, SearchInput } from '../components/index'
 import { Auth, Hamburger } from './index'
 import { useSelector, useDispatch } from 'react-redux'
 import { useQueryMyProf } from '../hooks/useQueryProf'
@@ -95,7 +95,7 @@ const Layout: React.FC<PROPS> = ({ children, title = 'Default title' }) => {
                     <li>
                       <Link href="/myprofile">
                         <a>
-                          <Avatar img={data?.img} size={34} />
+                          <AvatarMemo img={data?.img} size={34} />
                         </a>
                       </Link>
                     </li>

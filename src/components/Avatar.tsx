@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import styled from 'styled-components'
 import Image from 'next/image'
 
@@ -29,4 +30,4 @@ const Avatar: React.VFC<Props> = ({ img, size }) => {
     </div>
   )
 }
-export default Avatar
+export const AvatarMemo = memo(Avatar)

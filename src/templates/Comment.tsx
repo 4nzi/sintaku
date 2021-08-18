@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import { Button, Loading, Avatar, Spacer } from '../components/index'
+import { Button, Loading, AvatarMemo, Spacer } from '../components/index'
 import { useQueryClient } from 'react-query'
 import { useQueryComments } from '../hooks/useQueryComment'
 import { useMutateComment } from '../hooks/useMutateComment'
@@ -77,7 +77,7 @@ const Comment: React.VFC = () => {
       <p>{commentOnPost?.length}件のコメント</p>
       <form onSubmit={submitHandler}>
         <Add>
-          <Avatar img={myProf?.img} size={35} />
+          <AvatarMemo img={myProf?.img} size={35} />
           <textarea value={text} onChange={textChangeHandler} />
         </Add>
         {text && (
@@ -100,7 +100,7 @@ const Comment: React.VFC = () => {
           .reverse()
           .map((comment) => (
             <List key={comment.id}>
-              <Avatar
+              <AvatarMemo
                 img={
                   profs?.find(
                     (prof) => prof.userProfile === comment.userComment

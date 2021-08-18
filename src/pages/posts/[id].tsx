@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { useRouter } from 'next/router'
 import { Layout, Comment } from '../../templates/index'
-import { Loading, Avatar, Spacer } from '../../components/index'
+import { Loading, AvatarMemo, Spacer } from '../../components/index'
 import { POST } from '../../types'
 import { GetStaticProps, GetStaticPaths } from 'next' //type
 import { useAuthChecker } from '../../hooks/useAuthChecker'
@@ -94,7 +94,7 @@ const PostDetail: React.VFC<POST> = ({
         </Main>
         <Side>
           <Header>
-            <Avatar img={postUser?.img} size={50} />
+            <AvatarMemo img={postUser?.img} size={50} />
             <h2>{postUser?.nickName}</h2>
           </Header>
           <Title>
