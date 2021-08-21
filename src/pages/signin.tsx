@@ -34,7 +34,7 @@ const Wrapper = styled.form`
     text-align: center;
     margin-bottom: 20px;
   }
-  > span {
+  > a {
     color: #13aff0;
     font-size: 1.2rem;
     cursor: pointer;
@@ -62,7 +62,7 @@ const SignIn: React.VFC = () => {
     if (isAuthenticated) {
       router.push('/')
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated, router])
 
   return (
     <Contaier>
@@ -94,7 +94,7 @@ const SignIn: React.VFC = () => {
           </Button>
         </div>
         <Link href="/signup">
-          <span>新規登録はこちら</span>
+          <a>新規登録はこちら</a>
         </Link>
       </Wrapper>
     </Contaier>

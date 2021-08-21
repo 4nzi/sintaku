@@ -10,7 +10,7 @@ import {
 import { AvatarMemo, Spacer, Button } from '../components/index'
 import { useAuthChecker } from '../hooks/useAuthChecker'
 import { useQueryMyProf } from '../hooks/useQueryProf'
-import { useMutateAuth } from '../hooks/useMutateAuth'
+import { useAuth } from '../hooks/useAuth'
 
 /* --------------------- Style --------------------- */
 const Hero = styled.div`
@@ -32,7 +32,7 @@ const Wrapper = styled.div`
 const Myprofile: React.VFC = () => {
   const {} = useAuthChecker()
   const { data } = useQueryMyProf()
-  const { signout } = useMutateAuth()
+  const { signoutSubmitHandler } = useAuth()
   const [tab, setTab] = useState('works')
 
   function Tabs() {
@@ -53,7 +53,7 @@ const Myprofile: React.VFC = () => {
             <Spacer axis="vertical" size={50} />
             <AvatarMemo img={data?.img} size={120} />
             <h1>{data?.nickName}</h1>
-            <Button sType="box" onClick={signout}>
+            <Button sType="box" onClick={signoutSubmitHandler}>
               ログアウト
             </Button>
           </Wrapper>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { PostMemo, Layout } from '../templates/index'
-import { useQuerySearchPost } from '../hooks/useQuerySearchPost'
+import { useQuerySearchPost } from '../hooks/useQueryPost'
 import { Loading, Spacer, NoResults } from '../components/index'
 import { useAuthChecker } from '../hooks/useAuthChecker'
 import { useRouter } from 'next/router'

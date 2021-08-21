@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import styled from 'styled-components'
 import { Button } from './index'
 import { setOpenCrop } from '../RTK/uiSlice'
@@ -6,29 +7,9 @@ import { useDispatch } from 'react-redux'
 /* --------------------- Style --------------------- */
 const Main = styled.div`
   position: relative;
-  overflow: hidden;
   padding-top: 100%; //比率//
   margin-bottom: 20px;
   background: #1a1a1a;
-  > img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border: 1px solid #333;
-  }
-  > div {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    border: 2px dashed #333;
-  }
 `
 const Footer = styled.div`
   display: flex;
@@ -55,7 +36,13 @@ const PreviewThum: React.VFC<PROPS> = ({ src, onChange }) => {
   const dispatch = useDispatch()
   return (
     <>
-      <Main>{src ? <img src={src} /> : <div></div>}</Main>
+      <Main>
+        {src ? (
+          <Image src={src} layout="fill" objectFit="cover" alt="サムネイル" />
+        ) : (
+          <div></div>
+        )}
+      </Main>
       <Footer>
         {src && (
           <Button
