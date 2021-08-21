@@ -39,7 +39,6 @@ const Post: React.VFC<POST> = ({
   const postUser = data?.find((prof) => {
     return prof.userProfile === userPost
   })
-  console.log('post')
 
   return (
     <>

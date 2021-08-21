@@ -1,7 +1,7 @@
 import { AppProps } from 'next/app'
 import GlobalStyle from '../components/GlobalStyle'
-import { store } from '../RTK/store'
 import { Provider } from 'react-redux'
+import { store } from '../RTK/store'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
 const queryClient = new QueryClient({

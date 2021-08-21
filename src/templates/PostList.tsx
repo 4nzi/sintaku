@@ -28,6 +28,7 @@ const More = styled.div`
 
 const PostList: React.VFC = () => {
   const { data, hasNextPage, fetchNextPage, isLoading } = useQueryPosts()
+
   if (isLoading) return <Loading isShow={true} />
   return (
     <Container>

@@ -3,10 +3,10 @@ import { useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Input, Label, Button } from '../components/index'
-import { useAuth } from '../hooks/useAuth'
 import { useSelector } from 'react-redux'
 import { selectIsAuthenticated } from '../RTK/uiSlice'
 import { useAuthChecker } from '../hooks/useAuthChecker'
+import { useAuth } from '../hooks/useAuth'
 
 /* --------------------- Style --------------------- */
 const Contaier = styled.div`
@@ -88,7 +88,7 @@ const SignIn: React.VFC = () => {
             required
           />
         </div>
-        <div className="submit">
+        <div className="submit" data-testid="signin">
           <Button sType="box" type="submit">
             ログイン
           </Button>

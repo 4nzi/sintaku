@@ -1,17 +1,51 @@
 import { useState } from 'react'
+import { useRouter } from 'next/router'
+import Cookie from 'universal-cookie'
+import axios from 'axios'
+import { useQueryClient, useMutation } from 'react-query'
 import { useDispatch } from 'react-redux'
-import { useMutateAuth } from './useMutateAuth'
 import { useMutateProf } from './useMutateProf'
 import {
   resetOpenSignUp,
   resetOpenSignIn,
   setIsAuthenticated,
+  resetIsAuthenticated,
 } from '../RTK/uiSlice'
+import { AUTH } from '../types'
 
 export const useAuth = () => {
   const dispatch = useDispatch()
-  const { signInMutation, signUpMutation } = useMutateAuth()
+  const cookie = new Cookie()
+  const queryClient = useQueryClient()
+  const router = useRouter()
   const { createProfMutaion } = useMutateProf()
+
+  const signInMutation = useMutation(
+    (auth: AUTH) =>
+      axios.post(`${process.env.NEXT_PUBLIC_RESTAPI_URL}api/jwt/create/`, auth),
+    {
+      onSuccess: (res, variables) => {
+        const options = { path: '/' }
+        cookie.set('token', res.data.access, options)
+        // データ更新
+        queryClient.invalidateQueries('myProf')
+      },
+      onError: () => {
+        alert('サインインに失敗しました。')
+      },
+    }
+  )
+
+  const signUpMutation = useMutation(
+    (auth: AUTH) =>
+      axios.post(`${process.env.NEXT_PUBLIC_RESTAPI_URL}api/register/`, auth),
+    {
+      onSuccess: (res, variables) => {},
+      onError: () => {
+        alert('サインアップに失敗しました。')
+      },
+    }
+  )
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -27,6 +61,7 @@ export const useAuth = () => {
 
   const signupSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setLoading(true)
     await signUpMutation.mutateAsync({ email: email, password: password })
     await signInMutation.mutateAsync({ email: email, password: password })
     await createProfMutaion.mutateAsync()
@@ -39,12 +74,20 @@ export const useAuth = () => {
 
   const signinSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setLoading(true)
     await signInMutation.mutateAsync({ email: email, password: password })
     setEmail('')
     setPassword('')
     dispatch(setIsAuthenticated())
     setLoading(false)
     dispatch(resetOpenSignIn())
+  }
+
+  const signoutSubmitHandler = async () => {
+    cookie.remove('token')
+    dispatch(resetIsAuthenticated())
+    queryClient.setQueriesData('myProf', '')
+    router.push('/')
   }
 
   return {
@@ -55,5 +98,6 @@ export const useAuth = () => {
     passChangeHandler,
     signupSubmitHandler,
     signinSubmitHandler,
+    signoutSubmitHandler,
   }
 }

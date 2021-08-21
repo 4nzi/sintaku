@@ -34,7 +34,7 @@ const MyPostList: React.VFC = () => {
   return (
     <Container>
       <Wrapper>
-        {data.pages.map((page, i) => (
+        {data?.pages.map((page, i) => (
           <React.Fragment key={i}>
             {page.results.map((result) => (
               <li key={result.id}>

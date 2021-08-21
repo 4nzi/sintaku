@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { Button, Loading, AvatarMemo, Spacer } from '../components/index'
 import { useQueryClient } from 'react-query'
-import { useQueryComments } from '../hooks/useQueryComment'
+import { useQueryComments } from '../hooks/useQueryComments'
 import { useMutateComment } from '../hooks/useMutateComment'
 import { PROFILE } from '../types'
 
