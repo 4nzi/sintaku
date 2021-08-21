@@ -18,12 +18,12 @@ const SearchInput: React.FC = () => {
       const { value } = e.currentTarget
       dispatch(setSearchQuery(value))
     },
-    [search]
+    [dispatch]
   )
 
-  const clickHandler = useCallback(() => {
-    void router.push(`/search/?keyword=${search}`)
-  }, [search, router])
+  // const clickHandler = useCallback(() => {
+  //   void router.push(`/search/?keyword=${search}`)
+  // }, [search, router])
 
   const KeyDownHandler = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -32,7 +32,7 @@ const SearchInput: React.FC = () => {
         dispatch(resetOpenBurger())
       }
     },
-    [search, router]
+    [search, router, dispatch]
   )
 
   return (

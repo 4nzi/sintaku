@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import Image from 'next/image'
 import { Button } from './index'
 
 /* --------------------- Style --------------------- */
@@ -9,15 +10,7 @@ const Wapper = styled.div`
   max-width: 324px;
   padding-top: 100%;
 `
-const Image = styled.img`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: cover;
-`
+
 const Delete = styled.div`
   position: absolute;
   z-index: 2;
@@ -94,7 +87,12 @@ const ImagePreview: React.VFC<PROPS> = ({ src, onclick, index }) => {
             <span>image_{index}</span>
           </div>
         </Header>
-        <Image src={src} />
+        <Image
+          src={src}
+          layout="fill"
+          objectFit="contain"
+          alt="プレビュー画像"
+        />
         <Delete>
           <Button sType="box" type="button" onClick={onclick}>
             <svg

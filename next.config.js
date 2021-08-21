@@ -3,4 +3,7 @@ module.exports = {
   images: {
     domains: ['drf-app.s3.amazonaws.com'],
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 }

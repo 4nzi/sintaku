@@ -60,6 +60,7 @@ const Title = styled.div`
     font-size: 2.4rem;
   }
 `
+const Image = styled.img``
 /* ------------------------------------------------- */
 
 const PostDetail: React.VFC<POST> = ({
@@ -87,7 +88,7 @@ const PostDetail: React.VFC<POST> = ({
         <Main>
           {images.map((image, i) => (
             <li key={i}>
-              <img src={image.file} alt="" />
+              <Image src={image.file} alt={description} />
               <Spacer axis="vertical" size={20} />
             </li>
           ))}
