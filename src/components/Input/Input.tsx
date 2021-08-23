@@ -8,6 +8,6 @@ const Wrapper = styled.input`
 const Input: React.VFC<React.InputHTMLAttributes<HTMLInputElement>> = (
   props
 ) => {
-  return <Wrapper {...props} />
+  return <Wrapper {...props}  />
 }
 export default Input

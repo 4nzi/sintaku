@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import Link from 'next/link'
 import Image from 'next/image'
 import { AvatarMemo, Like } from '../components/index'
-import { useQueryProfs } from '../hooks/useQueryProf'
 import { POST } from '../types'
 
 /* --------------------- Style --------------------- */
@@ -27,20 +26,18 @@ const Footer = styled.div`
 `
 /* ------------------------------------------------- */
 
-const Post: React.VFC<POST> = ({
+interface PROPS extends POST {
+  img?: string
+}
+
+const Post: React.VFC<PROPS> = ({
   id,
   thum,
   title,
-  userPost,
   liked,
   description,
+  img,
 }) => {
-  const { data } = useQueryProfs()
-  const postUser = data?.find((prof) => {
-    return prof.userProfile === userPost
-  })
-  console.log('post')
-
   return (
     <>
       <Link
@@ -60,7 +57,7 @@ const Post: React.VFC<POST> = ({
         </a>
       </Link>
       <Footer>
-        <AvatarMemo img={postUser?.img} size={24} />
+        <AvatarMemo img={img} size={24} />
         <Link
           href={{
             pathname: 'posts/[id]',

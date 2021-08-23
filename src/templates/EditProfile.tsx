@@ -2,8 +2,9 @@ import styled from 'styled-components'
 import { useState } from 'react'
 import { Input, Label, Spacer, AvatarMemo, Button } from '../components/index'
 import { Loading } from '../components/index'
-import { useQueryMyProf } from '../hooks/useQueryProf'
+import { useQueryClient } from 'react-query'
 import { useMutateProf } from '../hooks/useMutateProf'
+import { PROFILE } from '../types'
 
 /* --------------------- Style --------------------- */
 const Container = styled.div`
@@ -32,11 +33,12 @@ const Wrapper = styled.form`
 /* ------------------------------------------------- */
 
 const EditProfile: React.VFC = () => {
-  const { data, status } = useQueryMyProf()
+  const queryClient = useQueryClient()
+  const data = queryClient.getQueryData<PROFILE>('myProf')
   const { updateProf } = useMutateProf()
   const [image, setImage] = useState<File | null>(null)
   const [previewimage, setPreviewimage] = useState<string | null>(null)
-  const [nickName, setNickName] = useState('')
+  const [nickName, setNickName] = useState(data?.nickName)
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()

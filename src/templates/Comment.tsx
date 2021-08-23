@@ -1,9 +1,10 @@
 import styled from 'styled-components'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import { Button, Loading, AvatarMemo, Spacer } from '../components/index'
+import { Button, AvatarMemo, Spacer } from '../components/index'
 import { useQueryClient } from 'react-query'
-import { useQueryComments } from '../hooks/useQueryComment'
+import { useQueryComment } from '../hooks/useQueryComment'
+import { useQueryMyProf } from '../hooks/useQueryProf'
 import { useMutateComment } from '../hooks/useMutateComment'
 import { PROFILE } from '../types'
 
@@ -50,17 +51,13 @@ const List = styled.div`
 const Comment: React.VFC = () => {
   const router = useRouter()
   const { id } = router.query
-  const { data, status } = useQueryComments()
   const queryClient = useQueryClient()
-  const myProf = queryClient.getQueryData<PROFILE>('myProf')
   const profs = queryClient.getQueryData<PROFILE[]>('profs')
+  const myProf = useQueryMyProf()
+  const { data, status } = useQueryComment(String(id))
   const { createCommentMutation } = useMutateComment()
 
   const [text, setText] = useState('')
-
-  const commentOnPost = data?.filter((com) => {
-    return com.post === id
-  })
 
   const textChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value)
@@ -74,10 +71,10 @@ const Comment: React.VFC = () => {
 
   return (
     <Wrapper>
-      <p>{commentOnPost?.length}件のコメント</p>
+      <p>{data?.data.length}件のコメント</p>
       <form onSubmit={submitHandler}>
         <Add>
-          <AvatarMemo img={myProf?.img} size={35} />
+          <AvatarMemo img={myProf.data?.img} size={35} />
           <textarea value={text} onChange={textChangeHandler} />
         </Add>
         {text && (
@@ -95,7 +92,7 @@ const Comment: React.VFC = () => {
         )}
       </form>
       {status != 'loading' ? (
-        commentOnPost
+        data?.data
           .slice()
           .reverse()
           .map((comment) => (
@@ -123,7 +120,6 @@ const Comment: React.VFC = () => {
       ) : (
         <>
           <Spacer axis="vertical" size={70} />
-          <Loading isShow={true} />
         </>
       )}
     </Wrapper>

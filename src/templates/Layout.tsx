@@ -55,10 +55,11 @@ interface PROPS {
   title: string
 }
 
-const Layout: React.FC<PROPS> = ({ children, title = 'Default title' }) => {
+const Layout: React.FC<PROPS> = ({ children, title = 'Sintaku' }) => {
   const dispatch = useDispatch()
   const isAuthenticated = useSelector(selectIsAuthenticated)
   const { data } = useQueryMyProf()
+
   return (
     <>
       <Head>

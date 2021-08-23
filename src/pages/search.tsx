@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { PostMemo, Layout } from '../templates/index'
 import { useQuerySearchPost } from '../hooks/useQueryPost'
+import { useQueryProfs } from '../hooks/useQueryProf'
 import { Loading, Spacer, NoResults } from '../components/index'
 import { useAuthChecker } from '../hooks/useAuthChecker'
 import { useRouter } from 'next/router'
@@ -27,6 +28,7 @@ const Wrapper = styled.ul`
 
 const Search: React.VFC = () => {
   const {} = useAuthChecker()
+  const profs = useQueryProfs()
   const router = useRouter()
   const [urlQuery, setUrlQuery] = useState(null)
 
@@ -50,7 +52,12 @@ const Search: React.VFC = () => {
         <Wrapper>
           {data.data.results.map((result) => (
             <li key={result.id}>
-              <PostMemo {...result} />
+              <PostMemo
+                {...profs.data.find((prof) => {
+                  return prof.userProfile === result.userPost
+                })}
+                {...result}
+              />
             </li>
           ))}
         </Wrapper>
