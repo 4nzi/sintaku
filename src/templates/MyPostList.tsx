@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { PostMemo } from '../templates/index'
 import { Loading, Spacer, Button } from '../components/index'
 import { useQueryMyPosts } from '../hooks/useQueryPost'
+import { useQueryProfs } from '../hooks/useQueryProf'
 import { tab } from '../media'
 
 /* --------------------- Style --------------------- */
@@ -28,7 +29,7 @@ const More = styled.div`
 
 const MyPostList: React.VFC = () => {
   const { data, hasNextPage, fetchNextPage, isLoading } = useQueryMyPosts()
-  console.log('postLIst')
+  const profs = useQueryProfs()
 
   if (isLoading) return <Loading isShow={true} />
   return (
@@ -36,11 +37,19 @@ const MyPostList: React.VFC = () => {
       <Wrapper>
         {data.pages.map((page, i) => (
           <React.Fragment key={i}>
-            {page.results.map((result) => (
-              <li key={result.id}>
-                <PostMemo {...result} />
-              </li>
-            ))}
+            {page.results
+              .slice(0)
+              .reverse()
+              .map((result) => (
+                <li key={result.id}>
+                  <PostMemo
+                    {...profs.data.find((prof) => {
+                      return prof.userProfile === result.userPost
+                    })}
+                    {...result}
+                  />
+                </li>
+              ))}
           </React.Fragment>
         ))}
       </Wrapper>

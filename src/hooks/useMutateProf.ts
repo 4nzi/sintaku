@@ -23,7 +23,6 @@ export const useMutateProf = () => {
       ),
     {
       onSuccess: (res, variables) => {
-        // データ更新
         queryClient.invalidateQueries('myProf')
         queryClient.invalidateQueries('Profs')
       },
@@ -49,6 +48,7 @@ export const useMutateProf = () => {
         }
       )
       await queryClient.invalidateQueries('myProf')
+      alert('プロフィールを変更しました。')
     } catch {
       alert('変更に失敗しました。')
     }

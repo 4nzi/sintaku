@@ -17,10 +17,10 @@ export interface POST {
   description: string
   thum: string
   images?: Array<{
-    id: number
+    id: string
     file: string
     caption?: string
-    post: number
+    post: string
   }>
   created_at: string
   liked: Array<string>

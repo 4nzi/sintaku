@@ -85,9 +85,9 @@ export const useAuth = () => {
 
   const signoutSubmitHandler = async () => {
     cookie.remove('token')
+    await queryClient.setQueriesData('myProf', '')
     dispatch(resetIsAuthenticated())
-    queryClient.setQueriesData('myProf', '')
-    router.push('/')
+    await router.push('/')
   }
 
   return {

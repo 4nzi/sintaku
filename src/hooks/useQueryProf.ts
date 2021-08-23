@@ -28,10 +28,6 @@ export const useQueryMyProf = () => {
   return useQuery<PROFILE, Error>({
     queryKey: 'myProf',
     queryFn: getMyProf,
-    staleTime: Infinity,
-    refetchOnWindowFocus: false,
-    //cacheTime: 5000,
-    //refetchInterval: 5000,
   })
 }
 
@@ -39,9 +35,5 @@ export const useQueryProfs = () => {
   return useQuery<PROFILE[], Error>({
     queryKey: 'profs',
     queryFn: getProfs,
-    staleTime: Infinity,
-    refetchOnWindowFocus: false,
-    //cacheTime: 5000,
-    //refetchInterval: 5000,
   })
 }

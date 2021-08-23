@@ -1,13 +1,14 @@
 import styled from 'styled-components'
-import { useRouter } from 'next/router'
 import { Layout, Comment } from '../../templates/index'
-import { Loading, AvatarMemo, Spacer } from '../../components/index'
-import { POST } from '../../types'
+import { AvatarMemo, Spacer } from '../../components/index'
+import { POST, PROFILE } from '../../types'
 import { GetStaticProps, GetStaticPaths } from 'next' //type
 import { useAuthChecker } from '../../hooks/useAuthChecker'
 import { getAllPostIds, getPost } from '../../hooks/useQueryPost'
-import { useQueryProfs } from '../../hooks/useQueryProf'
+import { getProfs } from '../../hooks/useQueryProf'
 import { pc, tab } from '../../media'
+import { dehydrate } from 'react-query/hydration'
+import { QueryClient, useQueryClient } from 'react-query'
 
 /* --------------------- Style --------------------- */
 const Wrapper = styled.div`
@@ -70,23 +71,19 @@ const PostDetail: React.VFC<POST> = ({
   created_at,
   userPost,
 }) => {
-  const router = useRouter()
   const {} = useAuthChecker()
-  const { data } = useQueryProfs()
+  const queryClient = useQueryClient()
+  const data = queryClient.getQueryData<PROFILE[]>('profs')
 
   const postUser = data?.find((prof) => {
     return prof.userProfile === userPost
   })
 
-  if (router.isFallback || !title) {
-    return <Loading isShow={true} />
-  }
-
   return (
     <Layout title={'Sintaku' + ' - ' + title}>
       <Wrapper>
         <Main>
-          {images.map((image, i) => (
+          {images?.map((image, i) => (
             <li key={i}>
               <Image src={image.file} alt={description} />
               <Spacer axis="vertical" size={20} />
@@ -124,9 +121,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const post = await getPost(ctx.params.id as string)
+  const queryClient = new QueryClient()
+  await queryClient.prefetchQuery('profs', getProfs)
 
   return {
-    props: { ...post },
+    props: { ...post, dehydratedState: dehydrate(queryClient) },
     revalidate: 10, //ISR
   }
 }
