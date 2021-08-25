@@ -8,7 +8,6 @@ export const uiSlice = createSlice({
     openSignUp: false,
     openCrop: false,
     openBurger: false,
-    isAuthenticated: false,
     searchQuery: '',
   },
   reducers: {
@@ -36,12 +35,7 @@ export const uiSlice = createSlice({
     resetOpenBurger(state) {
       state.openBurger = false
     },
-    setIsAuthenticated(state) {
-      state.isAuthenticated = true
-    },
-    resetIsAuthenticated(state) {
-      state.isAuthenticated = false
-    },
+
     setSearchQuery: (state, action: PayloadAction<string>) => {
       state.searchQuery = action.payload
     },
@@ -57,8 +51,6 @@ export const {
   resetOpenCrop,
   setOpenBurger,
   resetOpenBurger,
-  setIsAuthenticated,
-  resetIsAuthenticated,
   setSearchQuery,
 } = uiSlice.actions
 
@@ -66,8 +58,6 @@ export const selectOpenSignIn = (state: RootState) => state.ui.openSignIn
 export const selectOpenSignUp = (state: RootState) => state.ui.openSignUp
 export const selectOpenCropt = (state: RootState) => state.ui.openCrop
 export const selectOpenBurger = (state: RootState) => state.ui.openBurger
-export const selectIsAuthenticated = (state: RootState) =>
-  state.ui.isAuthenticated
 export const selectSearchQuery = (state: RootState) => state.ui.searchQuery
 
 export default uiSlice.reducer

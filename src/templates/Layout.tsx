@@ -5,12 +5,8 @@ import Image from 'next/image'
 import { Button, Spacer, AvatarMemo, SearchInput } from '../components/index'
 import { Auth, Hamburger } from './index'
 import { useSelector, useDispatch } from 'react-redux'
-import { useQueryMyProf } from '../hooks/useQueryProf'
-import {
-  setOpenSignUp,
-  setOpenSignIn,
-  selectIsAuthenticated,
-} from '../RTK/uiSlice'
+import { setOpenSignUp, setOpenSignIn } from '../RTK/uiSlice'
+import { selectMyProfile } from '../RTK/authSlice'
 import { tab } from '../media'
 
 /* --------------------- Style --------------------- */
@@ -57,8 +53,7 @@ interface PROPS {
 
 const Layout: React.FC<PROPS> = ({ children, title = 'Sintaku' }) => {
   const dispatch = useDispatch()
-  const isAuthenticated = useSelector(selectIsAuthenticated)
-  const { data } = useQueryMyProf()
+  const data = useSelector(selectMyProfile)
 
   return (
     <>
@@ -82,7 +77,7 @@ const Layout: React.FC<PROPS> = ({ children, title = 'Sintaku' }) => {
             <SearchInput />
             <Nav>
               <ul>
-                {isAuthenticated ? (
+                {data.nickName ? (
                   <>
                     <li>
                       <Link href="/upload">
@@ -126,7 +121,7 @@ const Layout: React.FC<PROPS> = ({ children, title = 'Sintaku' }) => {
                       <Button
                         sType="color"
                         onClick={async () => {
-                          await dispatch(setOpenSignUp())
+                          dispatch(setOpenSignUp())
                         }}
                       >
                         作品を投稿

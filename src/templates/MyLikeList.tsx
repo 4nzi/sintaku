@@ -43,7 +43,7 @@ const MyPostList: React.VFC = () => {
               .map((result) => (
                 <li key={result.id}>
                   <PostMemo
-                    {...profs.data.find((prof) => {
+                    {...profs?.data.find((prof) => {
                       return prof.userProfile === result.userPost
                     })}
                     {...result}
