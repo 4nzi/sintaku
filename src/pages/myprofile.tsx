@@ -8,8 +8,9 @@ import {
   MyLikeList,
 } from '../templates/index'
 import { AvatarMemo, Spacer, Button } from '../components/index'
+import { useSelector } from 'react-redux'
+import { selectMyProfile } from '../RTK/authSlice'
 import { useAuthChecker } from '../hooks/useAuthChecker'
-import { useQueryMyProf } from '../hooks/useQueryProf'
 import { useAuth } from '../hooks/useAuth'
 
 /* --------------------- Style --------------------- */
@@ -31,7 +32,7 @@ const Wrapper = styled.div`
 
 const Myprofile: React.VFC = () => {
   const {} = useAuthChecker()
-  const { data } = useQueryMyProf()
+  const data = useSelector(selectMyProfile)
   const { signoutSubmitHandler } = useAuth()
   const [tab, setTab] = useState('works')
 

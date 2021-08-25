@@ -5,12 +5,8 @@ import axios from 'axios'
 import { useQueryClient, useMutation } from 'react-query'
 import { useDispatch } from 'react-redux'
 import { useMutateProf } from './useMutateProf'
-import {
-  resetOpenSignUp,
-  resetOpenSignIn,
-  setIsAuthenticated,
-  resetIsAuthenticated,
-} from '../RTK/uiSlice'
+import { resetOpenSignUp, resetOpenSignIn } from '../RTK/uiSlice'
+import { fetchAsyncGetMyProf, resetMyProfile } from '../RTK/authSlice'
 import { AUTH } from '../types'
 
 export const useAuth = () => {
@@ -67,7 +63,7 @@ export const useAuth = () => {
     await createProfMutaion.mutateAsync()
     setEmail('')
     setPassword('')
-    dispatch(setIsAuthenticated())
+    dispatch(fetchAsyncGetMyProf())
     setLoading(false)
     dispatch(resetOpenSignUp())
   }
@@ -78,15 +74,14 @@ export const useAuth = () => {
     await signInMutation.mutateAsync({ email: email, password: password })
     setEmail('')
     setPassword('')
-    dispatch(setIsAuthenticated())
+    dispatch(fetchAsyncGetMyProf())
     setLoading(false)
     dispatch(resetOpenSignIn())
   }
 
   const signoutSubmitHandler = async () => {
     cookie.remove('token')
-    await queryClient.setQueriesData('myProf', '')
-    dispatch(resetIsAuthenticated())
+    dispatch(resetMyProfile())
     await router.push('/')
   }
 

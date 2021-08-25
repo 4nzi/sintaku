@@ -7,8 +7,8 @@ import {
   setOpenBurger,
   resetOpenBurger,
   selectOpenBurger,
-  selectIsAuthenticated,
 } from '../RTK/uiSlice'
+import { selectMyProfile } from '../RTK/authSlice'
 
 /* --------------------- Style --------------------- */
 const Nav = styled.nav`
@@ -88,7 +88,7 @@ const Icon = styled.div<{ isOpen: boolean }>`
 const Hamburger: React.VFC = () => {
   const dispatch = useDispatch()
   const isOpen = useSelector(selectOpenBurger)
-  const isAuthenticated = useSelector(selectIsAuthenticated)
+  const { nickName } = useSelector(selectMyProfile)
 
   return (
     <>
@@ -98,7 +98,7 @@ const Hamburger: React.VFC = () => {
             <NavList>
               <SearchInput />
             </NavList>
-            {isAuthenticated ? (
+            {nickName ? (
               <>
                 <NavList>
                   <Link href="/upload">

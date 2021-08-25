@@ -1,7 +1,8 @@
 import styled from 'styled-components'
 import { useMutateLiked } from '../hooks/useMutateLiked'
-import { useQueryClient } from 'react-query'
-import { PROFILE } from '../types'
+import { useSelector, useDispatch } from 'react-redux'
+import { selectMyProfile } from '../RTK/authSlice'
+import { setOpenSignUp } from '../RTK/uiSlice'
 
 /* --------------------- Style --------------------- */
 const Styled = styled.button<{ userLiked: boolean }>`
@@ -33,9 +34,9 @@ interface PROPS {
 }
 
 const Like: React.VFC<PROPS> = ({ id, title, liked, thum, description }) => {
+  const dispatch = useDispatch()
   const { togleLiked } = useMutateLiked()
-  const queryClient = useQueryClient()
-  const data = queryClient.getQueryData<PROFILE>('myProf')
+  const data = useSelector(selectMyProfile)
   let userLiked = false
 
   liked.forEach((current) => {
@@ -45,15 +46,19 @@ const Like: React.VFC<PROPS> = ({ id, title, liked, thum, description }) => {
   })
 
   const likeHandler = async () => {
-    const packet = {
-      id: id,
-      title: title,
-      description: description,
-      thum: thum,
-      current: liked,
-      new: data.userProfile,
+    if (data.nickName) {
+      const packet = {
+        id: id,
+        title: title,
+        description: description,
+        thum: thum,
+        current: liked,
+        new: data.userProfile,
+      }
+      await togleLiked(packet)
+    } else {
+      dispatch(setOpenSignUp())
     }
-    await togleLiked(packet)
   }
 
   return (

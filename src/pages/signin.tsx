@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { Input, Label, Button } from '../components/index'
 import { useAuth } from '../hooks/useAuth'
 import { useSelector } from 'react-redux'
-import { selectIsAuthenticated } from '../RTK/uiSlice'
+import { selectMyProfile } from '../RTK/authSlice'
 import { useAuthChecker } from '../hooks/useAuthChecker'
 
 /* --------------------- Style --------------------- */
@@ -49,7 +49,7 @@ const Wrapper = styled.form`
 const SignIn: React.VFC = () => {
   const {} = useAuthChecker()
   const router = useRouter()
-  const isAuthenticated = useSelector(selectIsAuthenticated)
+  const { nickName } = useSelector(selectMyProfile)
   const {
     email,
     password,
@@ -59,10 +59,10 @@ const SignIn: React.VFC = () => {
   } = useAuth()
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (nickName) {
       router.push('/')
     }
-  }, [isAuthenticated, router])
+  }, [nickName, router])
 
   return (
     <Contaier>

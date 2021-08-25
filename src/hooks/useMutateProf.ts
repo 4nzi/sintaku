@@ -1,9 +1,12 @@
 import { useQueryClient, useMutation } from 'react-query'
 import Cookie from 'universal-cookie'
 import axios from 'axios'
+import { useDispatch } from 'react-redux'
+import { fetchAsyncGetMyProf } from '../RTK/authSlice'
 import { PROFILE, UPDATE_PROF } from '../types'
 
 export const useMutateProf = () => {
+  const dispatch = useDispatch()
   const cookie = new Cookie()
   const queryClient = useQueryClient()
 
@@ -23,7 +26,7 @@ export const useMutateProf = () => {
       ),
     {
       onSuccess: (res, variables) => {
-        queryClient.invalidateQueries('myProf')
+        dispatch(fetchAsyncGetMyProf())
         queryClient.invalidateQueries('Profs')
       },
       onError: () => {
@@ -47,7 +50,7 @@ export const useMutateProf = () => {
           },
         }
       )
-      await queryClient.invalidateQueries('myProf')
+      dispatch(fetchAsyncGetMyProf())
       alert('プロフィールを変更しました。')
     } catch {
       alert('変更に失敗しました。')

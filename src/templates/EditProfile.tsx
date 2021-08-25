@@ -3,8 +3,9 @@ import { useState } from 'react'
 import { Input, Label, Spacer, AvatarMemo, Button } from '../components/index'
 import { Loading } from '../components/index'
 import { useQueryClient } from 'react-query'
+import { useSelector } from 'react-redux'
+import { selectMyProfile } from '../RTK/authSlice'
 import { useMutateProf } from '../hooks/useMutateProf'
-import { PROFILE } from '../types'
 
 /* --------------------- Style --------------------- */
 const Container = styled.div`
@@ -33,8 +34,7 @@ const Wrapper = styled.form`
 /* ------------------------------------------------- */
 
 const EditProfile: React.VFC = () => {
-  const queryClient = useQueryClient()
-  const data = queryClient.getQueryData<PROFILE>('myProf')
+  const data = useSelector(selectMyProfile)
   const { updateProf } = useMutateProf()
   const [image, setImage] = useState<File | null>(null)
   const [previewimage, setPreviewimage] = useState<string | null>(null)

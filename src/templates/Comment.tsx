@@ -4,8 +4,10 @@ import { useRouter } from 'next/router'
 import { Button, AvatarMemo, Spacer } from '../components/index'
 import { useQueryClient } from 'react-query'
 import { useQueryComment } from '../hooks/useQueryComment'
-import { useQueryMyProf } from '../hooks/useQueryProf'
 import { useMutateComment } from '../hooks/useMutateComment'
+import { useSelector, useDispatch } from 'react-redux'
+import { selectMyProfile } from '../RTK/authSlice'
+import { setOpenSignUp } from '../RTK/uiSlice'
 import { PROFILE } from '../types'
 
 /* --------------------- Style --------------------- */
@@ -49,12 +51,13 @@ const List = styled.div`
 /* ------------------------------------------------- */
 
 const Comment: React.VFC = () => {
+  const dispatch = useDispatch()
   const router = useRouter()
-  const { id } = router.query
   const queryClient = useQueryClient()
+  const { id } = router.query
   const profs = queryClient.getQueryData<PROFILE[]>('profs')
-  const myProf = useQueryMyProf()
-  const { data, status } = useQueryComment(String(id))
+  const myProf = useSelector(selectMyProfile)
+  const { data, isLoading } = useQueryComment(String(id))
   const { createCommentMutation } = useMutateComment()
 
   const [text, setText] = useState('')
@@ -65,16 +68,23 @@ const Comment: React.VFC = () => {
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    await createCommentMutation.mutateAsync({ text: text, post: id as string })
-    setText('')
+    if (myProf.nickName) {
+      await createCommentMutation.mutateAsync({
+        text: text,
+        post: id as string,
+      })
+      setText('')
+    } else {
+      dispatch(setOpenSignUp())
+    }
   }
-
+  if (isLoading) return <></>
   return (
     <Wrapper>
-      <p>{data?.data.length}件のコメント</p>
+      <p>{data?.length}件のコメント</p>
       <form onSubmit={submitHandler}>
         <Add>
-          <AvatarMemo img={myProf.data?.img} size={35} />
+          <AvatarMemo img={myProf?.img} size={35} />
           <textarea value={text} onChange={textChangeHandler} />
         </Add>
         {text && (
@@ -91,37 +101,30 @@ const Comment: React.VFC = () => {
           </>
         )}
       </form>
-      {status != 'loading' ? (
-        data?.data
-          .slice()
-          .reverse()
-          .map((comment) => (
-            <List key={comment.id}>
-              <AvatarMemo
-                img={
+      {data
+        .slice()
+        .reverse()
+        .map((comment) => (
+          <List key={comment.id}>
+            <AvatarMemo
+              img={
+                profs?.find((prof) => prof.userProfile === comment.userComment)
+                  ?.img
+              }
+              size={30}
+            />
+            <div>
+              <p>
+                {
                   profs?.find(
                     (prof) => prof.userProfile === comment.userComment
-                  )?.img
+                  )?.nickName
                 }
-                size={30}
-              />
-              <div>
-                <p>
-                  {
-                    profs?.find(
-                      (prof) => prof.userProfile === comment.userComment
-                    )?.nickName
-                  }
-                </p>
-                <p>{comment.text}</p>
-              </div>
-            </List>
-          ))
-      ) : (
-        <>
-          <Spacer axis="vertical" size={70} />
-        </>
-      )}
+              </p>
+              <p>{comment.text}</p>
+            </div>
+          </List>
+        ))}
     </Wrapper>
   )
 }
