@@ -3,6 +3,9 @@
 画像作品を共有する WEB サービスです。  
 サイズの大きい画像を扱うことを想定し、Next.js/Vercel/Django
 で高速なアプリケーションを構築しています。
+### テストユーザー
+email: `test@example.com`  
+pass: `test`
 
 # 機能
 
